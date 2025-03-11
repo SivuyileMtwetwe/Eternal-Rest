@@ -16,8 +16,6 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'https://eternal-rest.vercel.app/', // Replace with your frontend URL
-    credentials: true,
   }));
 app.use(express.json());
 
