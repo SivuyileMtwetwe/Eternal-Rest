@@ -16,6 +16,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
+    origin: '*', // Or specify your frontend domain
+  methods: ['GET', 'POST'],
   }));
 app.use(express.json());
 
