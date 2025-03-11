@@ -22,7 +22,7 @@ app.use(cors({
 app.use(express.json());
 
 // Serve static files (e.g., uploaded images)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Mount routes
 app.use('/api/reviews', reviewRoutes);
