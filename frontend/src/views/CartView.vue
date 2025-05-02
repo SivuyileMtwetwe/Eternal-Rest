@@ -6,7 +6,7 @@
       <div v-if="cartItems.length > 0">
         <!-- Cart Items -->
         <div v-for="item in cartItems" :key="item.cart_id" class="cart-item">
-          <img :src="item.image_url" :alt="item.title" class="cart-item-image" />
+          <img :src="getImageUrl(item.image_url)" :alt="item.title" class="cart-item-image" />
           <div class="item-details">
             <h3>{{ item.title }}</h3>
             <p>R{{ formatPrice(item.price) }}</p>
@@ -99,7 +99,18 @@ methods: {
     formatPrice(price) {
       return parseFloat(price).toFixed(2);
     },
-   
+    getImageUrl(imageUrl) {
+      // Check if the URL is already a complete Cloudinary URL
+      if (imageUrl && imageUrl.startsWith('https://res.cloudinary.com')) {
+        return imageUrl;
+      }
+      // If it's just the Cloudinary path, construct the full URL
+      if (imageUrl && !imageUrl.startsWith('http')) {
+        return `https://res.cloudinary.com/dnryqvt6o/image/upload/${imageUrl}`;
+      }
+      // Return a default image URL if the image_url is invalid
+      return 'https://res.cloudinary.com/dnryqvt6o/image/upload/v1/default-placeholder.jpg';
+    },
     async updateQuantity(cart_id, newQuantity) {
       if (newQuantity < 1) return;
 
