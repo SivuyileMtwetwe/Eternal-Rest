@@ -59,84 +59,6 @@ export default {
 </script>
 
 <style scoped>
-/* .header {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  padding: 15px 0;
-  width: 100%;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.nav-menu ul {
-  display: flex;
-  list-style: none;
-}
-
-.nav-menu li {
-  margin-left: 20px;
-}
-
-.nav-menu a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-.header-icons {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.header-icons a {
-  color: #333;
-  font-size: 1.2rem;
-  text-decoration: none;
-}
-
-.auth-btn {
-  padding: 5px 10px;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #333;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.auth-btn:hover {
-  background-color: #333;
-  color: white;
-}
-
-.logout-btn {
-  padding: 5px 10px;
-  border: 1px solid #ff4d4d;
-  border-radius: 4px;
-  background-color: #ff4d4d;
-  color: white;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: #e60000;
-} */
-
 header {
   background-color: #fff;
   color: #222;
@@ -150,9 +72,7 @@ header {
 }
 
 img {
-  /* position: sticky; */
   top: 2px; /* Adjust as needed */
-  /* bottom: 2px; */
   left: 5px; /* Adjust as needed */
   width: 80px; /* Size of the image */
   height: 80px;
@@ -177,7 +97,6 @@ img {
   padding-left: 1px;
   align-items: center;
   font-size: 55px;
-  /* font-weight: bold; */
   font-family: 'Brush Script MT', cursive;
   color: #222;
 }
@@ -282,21 +201,93 @@ img {
   color :rgb(245, 245, 245) !important;
 }
 
+/* Media Queries */
+@media (max-width: 1024px) {
+  .container {
+    width: 95%;
+    padding: 0 15px;
+  }
+  
+  .logo {
+    font-size: 40px;
+  }
+  
+  .nav-menu ul {
+    gap: 15px;
+  }
+}
 
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 35px;
+    margin-bottom: 15px;
+  }
+
+  .nav-menu {
+    width: 100%;
+    margin: 10px 0;
   }
 
   .nav-menu ul {
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .nav-menu ul li {
+    width: 100%;
+    text-align: center;
   }
 
   .header-icons {
-    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+
+  img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 10px 0;
+  }
+
+  .logo {
+    font-size: 30px;
+  }
+
+  .nav-menu ul li a {
+    font-size: 16px;
+  }
+
+  .header-icons {
+    gap: 10px;
+  }
+
+  .header-icons a,
+  .header-icons button {
+    font-size: 18px;
+  }
+
+  .auth-btn {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
   }
 }
 
