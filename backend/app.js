@@ -16,7 +16,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'https://eternal-rest.vercel.app/*', // Or specify your frontend domain
+    origin: '*', // Or specify your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
