@@ -109,7 +109,7 @@ methods: {
         return `https://res.cloudinary.com/dnryqvt6o/image/upload/${imageUrl}`;
       }
       // Return a default image URL if the image_url is invalid
-      return 'https://res.cloudinary.com/dnryqvt6o/image/upload/v1/default-placeholder.jpg';
+      // return 'https://res.cloudinary.com/dnryqvt6o/image/upload/v1/default-placeholder.jpg';
     },
     async updateQuantity(cart_id, newQuantity) {
       if (newQuantity < 1) return;
