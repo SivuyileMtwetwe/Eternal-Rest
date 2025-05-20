@@ -1,40 +1,42 @@
 <template>
-
   <header class="header">
-
     <div class="container">
       <div class="logo">
         <img src="https://images.vexels.com/media/users/3/269843/isolated/preview/8753fcdba7f74cdccd19597669d7c10a-halloween-coffin-icon-with-a-rose.png" alt="">
         6ft Boutique
       </div>
-      <nav class="nav-menu">
+
+      <!-- Hamburger Menu Button -->
+      <button class="hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" :class="{ 'is-open': isMenuOpen }">
         <ul>
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/caskets">Caskets</router-link></li>
-          <li><router-link to="/coffins">Coffins</router-link></li>
-          <li><router-link to="/urns">Urns</router-link></li>
-          <li><router-link to="/petmemorials">Pet Memorials</router-link></li>
+          <li><router-link to="/" @click="closeMenu">Home</router-link></li>
+          <li><router-link to="/caskets" @click="closeMenu">Caskets</router-link></li>
+          <li><router-link to="/coffins" @click="closeMenu">Coffins</router-link></li>
+          <li><router-link to="/urns" @click="closeMenu">Urns</router-link></li>
+          <li><router-link to="/petmemorials" @click="closeMenu">Pet Memorials</router-link></li>
         </ul>
       </nav>
-      <div class="header-icons">
-        <!-- Cart Icon -->
-        <router-link to="/cart"><i class="bi bi-cart-fill"></i></router-link>
 
-        <!-- Profile Icon or Login/Register Buttons -->
+      <!-- Header Icons -->
+      <div class="header-icons" :class="{ 'is-open': isMenuOpen }">
+        <router-link to="/cart" @click="closeMenu"><i class="bi bi-cart-fill"></i></router-link>
         <template v-if="isAuthenticated">
-          <!-- Admin Dashboard Link -->
-          <router-link v-if="isAdmin" to="/admin/dashboard" class="admin-dashboard-link">
+          <router-link v-if="isAdmin" to="/admin/dashboard" class="admin-dashboard-link" @click="closeMenu">
             <i class="bi bi-speedometer2"></i> Admin Dashboard
           </router-link>
-          <!-- Profile Icon -->
-          <router-link to="/profile"><i class="bi bi-person-circle"></i></router-link>
-          <!-- Logout Button -->
+          <router-link to="/profile" @click="closeMenu"><i class="bi bi-person-circle"></i></router-link>
           <button @click="handleLogout" class="logout-btn">Logout</button>
         </template>
         <template v-else>
-          <!-- Login and Register Buttons -->
-          <router-link to="/login" class="auth-btn">Login</router-link>
-          <router-link to="/register" class="auth-btn">Register</router-link>
+          <router-link to="/login" class="auth-btn" @click="closeMenu">Login</router-link>
+          <router-link to="/register" class="auth-btn" @click="closeMenu">Register</router-link>
         </template>
       </div>
     </div>
@@ -45,16 +47,30 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
+  data() {
+    return {
+      isMenuOpen: false
+    };
+  },
   computed: {
-    ...mapGetters(['isAuthenticated', 'isAdmin']), // Use Vuex getters
+    ...mapGetters(['isAuthenticated', 'isAdmin'])
   },
   methods: {
-  ...mapActions(['logout']),
-  handleLogout() {
-    this.logout(); // Call the logout action
-    this.$router.push('/login'); // Redirect to the login page
-  },
-},
+    ...mapActions(['logout']),
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+      document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+    },
+    closeMenu() {
+      this.isMenuOpen = false;
+      document.body.style.overflow = '';
+    },
+    handleLogout() {
+      this.logout();
+      this.closeMenu();
+      this.$router.push('/login');
+    }
+  }
 };
 </script>
 
@@ -64,32 +80,34 @@ header {
   color: #222;
   padding: 5px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position:absolute;
+  position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1; /* Keep header content above the image */
-  overflow: visible; /* Allow image to overflow */
+  z-index: 1000;
+  overflow: visible;
 }
 
 img {
-  top: 2px; /* Adjust as needed */
-  left: 5px; /* Adjust as needed */
-  width: 80px; /* Size of the image */
+  top: 2px;
+  left: 5px;
+  width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #fff; /* White background */
+  background-color: #fff;
   padding-right: 3px;
   padding-left: 10px;
-  z-index: 2; /* Keep image above content */
-  transform: rotate(-15deg)
+  z-index: 2;
+  transform: rotate(-15deg);
 }
+
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 1300px;
   padding: 0 5px;
-  position: relative; /* Allow positioning of the image */
+  position: relative;
+  margin: 0 auto;
 }
 
 .logo {
@@ -99,6 +117,39 @@ img {
   font-size: 55px;
   font-family: 'Brush Script MT', cursive;
   color: #222;
+}
+
+/* Hamburger Menu Styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 2px;
+  background-color: #222;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger.is-active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.is-active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 .nav-menu ul {
@@ -155,7 +206,7 @@ img {
   color: #e3b04b;
 }
 
-.header-icons .auth-btn {
+.auth-btn {
   padding: 6px 12px;
   border-radius: 20px;
   border: 1px solid #e3b04b;
@@ -165,24 +216,9 @@ img {
   transition: all 0.3s ease-in-out;
 }
 
-.header-icons .auth-btn:hover {
+.auth-btn:hover {
   background-color: #e3b04b;
   color: #fff;
-}
-
-.auth-btn {
-  padding: 5px 10px;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #333;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.auth-btn:hover {
-  background-color: #333;
-  color: white;
 }
 
 .logout-btn {
@@ -198,10 +234,10 @@ img {
 
 .logout-btn:hover {
   background-color: #e60000 !important;
-  color :rgb(245, 245, 245) !important;
+  color: rgb(245, 245, 245) !important;
 }
 
-/* Media Queries */
+/* Mobile Responsive Styles */
 @media (max-width: 1024px) {
   .container {
     width: 95%;
@@ -218,38 +254,55 @@ img {
 }
 
 @media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
   .container {
-    flex-direction: column;
-    padding: 10px;
-    width: 100%;
+    padding: 10px 20px;
   }
 
   .logo {
     font-size: 35px;
-    margin-bottom: 15px;
   }
 
   .nav-menu {
+    position: fixed;
+    top: 90px;
+    left: 0;
     width: 100%;
-    margin: 10px 0;
+    background: white;
+    padding: 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu.is-open {
+    transform: translateX(0);
   }
 
   .nav-menu ul {
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-  }
-
-  .nav-menu ul li {
-    width: 100%;
-    text-align: center;
+    gap: 20px;
   }
 
   .header-icons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    background: white;
+    padding: 15px;
     justify-content: center;
-    margin-top: 15px;
-    flex-wrap: wrap;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-icons.is-open {
+    transform: translateY(0);
   }
 
   img {
@@ -259,36 +312,18 @@ img {
 }
 
 @media (max-width: 480px) {
-  header {
-    padding: 10px 0;
-  }
-
   .logo {
     font-size: 30px;
-  }
-
-  .nav-menu ul li a {
-    font-size: 16px;
-  }
-
-  .header-icons {
-    gap: 10px;
-  }
-
-  .header-icons a,
-  .header-icons button {
-    font-size: 18px;
-  }
-
-  .auth-btn {
-    padding: 4px 8px;
-    font-size: 0.8rem;
   }
 
   img {
     width: 50px;
     height: 50px;
   }
-}
 
+  .auth-btn {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}
 </style>
